@@ -3,6 +3,7 @@ package io.piratelab.texttospeechy;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,8 +35,15 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
-            
-
+            Locale french = tts.getVoice().getLocale();
+            int result = tts.setLanguage(french);
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "La langue n'est pas supportée");
+            } else {
+                // do nothing
+            }
+        } else {
+            Log.e ("TTS","Problème d'initialisation" );
         }
     }
 
